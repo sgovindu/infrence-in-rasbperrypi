@@ -1,5 +1,6 @@
 # infrence-in-rasbperrypi
 This repo contains complete list of steps to install inference in raspberrypi 5.
+
 Full disclosure: All the steps were obtained using google search. Consolidating the steps in a single place. Any changes I had to do will be explicitly mentioned.
 
 ## Pre install steps
