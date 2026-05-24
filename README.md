@@ -25,4 +25,5 @@ curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/d
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz``
 8. ``cilium install --set kubeProxyReplacement=true`` installs cilium. **Note:** Plain ``cilium install`` will fail as OOTB CNI Fannel is not installed
+9. Add ``export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`` to ``$HOME/.bashrc``
 
