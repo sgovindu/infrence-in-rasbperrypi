@@ -34,3 +34,8 @@ rm cilium-linux-${CLI_ARCH}.tar.gz
 9. ``cilium install --set kubeProxyReplacement=true`` installs cilium. **Note:** Plain ``cilium install`` will fail as OOTB CNI Fannel is not installed
 10. Add ``export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`` to ``$HOME/.bashrc``
 
+## GGUF models download
+
+From Huggingface search for < 4B models and filter on gguf. Select the model and download.
+curl -L -C - -O "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf?download=true"
+curl -L -C - -O "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF/resolve/main/gemma-4-E2B-it-UD-IQ2_M.gguf?download=true"
