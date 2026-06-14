@@ -10,7 +10,7 @@ Full disclosure: Some of the steps were obtained using google search. Consolidat
 ## Install k3s
 **Note:** Installation of k3s is with cilium. I wanted to test with cilium as CNI because of its support of eBPF
 1. Install k3s without cni
-   ``sh
+   ``
    sh curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -s - \
       --flannel-backend=none \
       --disable-network-policy \
