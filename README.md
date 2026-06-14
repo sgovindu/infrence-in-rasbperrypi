@@ -45,7 +45,11 @@ Monitor cilium on the control-node using ``cilium status`` You should see cilium
 
 ## Inference engines
 There are two different inference engines that can be configured - llama.cpp from Meta and latest litertlm from Google.
-Both of these inference engines use different model formats for execution. llama uses gguf models and litertlm uses litertlm models. Both these models can be downloaded from huggingface
+Both of these inference engines use different model formats for execution. llama uses gguf models and litertlm uses litertlm models. Both these models can be downloaded from huggingface.
+
+Both the docker files build the inference engines as a part of the image creation.
+
+litertlm has dependency on rust and libvulkan1
 
 ### llama.cpp
 llama/Dockerfile creates a docker image using llama.cpp
