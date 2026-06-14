@@ -34,8 +34,40 @@ rm cilium-linux-${CLI_ARCH}.tar.gz
 9. ``cilium install --set kubeProxyReplacement=true`` installs cilium. **Note:** Plain ``cilium install`` will fail as OOTB CNI Fannel is not installed
 10. Add ``export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`` to ``$HOME/.bashrc``
 
-## GGUF models download
+## Add worker nodes (agents) to the control node
+I have 2 RaspberryPI worker nodes. 
+1. Extract the token from control-node using ``sudo cat /var/lib/rancher/k3s/server/node-token``
+2. On the worker node, ``export TOKEN={output from step1}``
+3. ``curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://<control_node_ip>:6443 --token $TOKEN" sh -``
+4. Repeat steps 2 and 3 on the second worker node
 
-From Huggingface search for < 4B models and filter on gguf. Select the model and download.
-curl -L -C - -O "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf?download=true"
-curl -L -C - -O "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF/resolve/main/gemma-4-E2B-it-UD-IQ2_M.gguf?download=true"
+Monitor cilium on the control-node using ``cilium status`` You should see cilium pods added to the newly added worker nodes. Use ``kubectl get pods -n kube-system -l k8s-app=cilium -o wide`` to check that three pods are running - one on control-node and 2 on worker nodes.
+
+## Inference engines
+There are two different inference engines that can be configured - llama.cpp from Meta and latest litertlm from Google.
+Both of these inference engines use different model formats for execution. llama uses gguf models and litertlm uses litertlm models. Both these models can be downloaded from huggingface
+
+### llama.cpp
+llama/Dockerfile creates a docker image using llama.cpp
+
+#### GGUF models download
+
+From Huggingface search for < 4B models and filter on gguf. 
+Select the model and download.
+
+``curl -L -C - -O "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf?download=true"``
+
+``curl -L -C - -O "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF/resolve/main/gemma-4-E2B-it-UD-IQ2_M.gguf?download=true"``
+
+### litertlm
+litert-lm/Dockerfile creates a docker image that uses litert-lm.
+
+#### litertlm models download
+
+https://huggingface.co/litert-community contains models for litertlm. 
+
+Models can be downloaded using
+
+``curl -L -C - -O https://huggingface.co/litert-community/Qwen3-8B/resolve/main/qwen3_8b_mixed_int4.litertlm?download=true``
+
+``curl -L -C - -O https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/main/gemma-4-E2B-it.litertlm?download=true``
