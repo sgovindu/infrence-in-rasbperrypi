@@ -1,7 +1,7 @@
 # infrence-in-rasbperrypi
 This repo contains complete list of steps to install inference in raspberrypi 5.
 
-Full disclosure: All the steps were obtained using google search. Consolidating the steps in a single place. Any changes I had to do will be explicitly mentioned.
+Full disclosure: Some of the steps were obtained using google search. Consolidating the steps in a single place. Any changes I had to do will be explicitly mentioned.
 
 ## Pre install steps
 1. Add ``cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1`` to end of the line ``/boot/firmware/cmdline.txt``
@@ -23,19 +23,19 @@ Full disclosure: All the steps were obtained using google search. Consolidating 
 6. ``kubectl get nodes`` status was **Not Ready** as CNI was not installed. Its an expected status untill cilium is installed 
 7. **End changes**
 8. Install cilium 
-   ```sh
+   ``sh
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 CLI_ARCH=arm64
 curl -L --fail --remote-name-all \
     https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-linux-${CLI_ARCH}.tar.gz
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz
-```
+``
 9. ``cilium install --set kubeProxyReplacement=true`` installs cilium. **Note:** Plain ``cilium install`` will fail as OOTB CNI Fannel is not installed
 10. Add ``export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`` to ``$HOME/.bashrc``
 
 ## Add worker nodes (agents) to the control node
-I have 2 RaspberryPI worker nodes. 
+Configuring 2 RaspberryPI worker nodes. 
 1. Extract the token from control-node using ``sudo cat /var/lib/rancher/k3s/server/node-token``
 2. On the worker node, ``export TOKEN={output from step1}``
 3. ``curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://<control_node_ip>:6443 --token $TOKEN" sh -``
