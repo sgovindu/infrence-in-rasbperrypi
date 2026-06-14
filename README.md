@@ -10,13 +10,13 @@ Full disclosure: All the steps were obtained using google search. Consolidating 
 ## Install k3s
 **Note:** Installation of k3s is with cilium. I wanted to test with cilium as CNI because of its support of eBPF
 1. Install k3s without cni
-   ```sh
+   ``sh
    sh curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -s - \
       --flannel-backend=none \
       --disable-network-policy \
       --disable-kube-proxy \
       --disable traefik
-  ```
+  ``
 3. After successful execution of this command, had to do the following changes
 4. **Start changes**
 5. kubectl get nodes resulted in permission error as ``K3S_KUBECONFIG_MODE="644"`` was not added during install. Explcitly changed the permissions using ``sudo chmod 644 /etc/rancher/k3s/k3s.yaml``
